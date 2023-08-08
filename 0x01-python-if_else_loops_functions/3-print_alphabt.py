@@ -1,6 +1,4 @@
 #!/usr/bin/python3  
 for alphaLetters in range(ord('a'), ord('z')+1):
-    if alphaLetters == 'e' or alphaLetters == 'q':
-        continue
-    else:
-        print("{:c}".format(alphaLetters), end="")
+    if alphaLetters != ord("e") and alphaLetters != ord("q"):
+        print(f"{alphaLetters:c}", end="")
