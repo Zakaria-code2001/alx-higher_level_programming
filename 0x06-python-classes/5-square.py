@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-"""Square identification"""
+"""class Square defined"""
 
 
 class Square:
     """Square representation"""
 
-    def __init__(self, size=0):
+    def __init__(self, size):
         """Square initialization
 
         Args:
@@ -27,5 +27,13 @@ class Square:
         self.__size = value
 
     def area(self):
-        """Return the area of the square."""
+        """Return area of the square."""
         return (self.__size * self.__size)
+
+    def my_print(self):
+        """square with the # character benign printed"""
+        for i in range(0, self.__size):
+            [print("#", end="") for j in range(self.__size)]
+            print("")
+        if self.__size == 0:
+            print("")
