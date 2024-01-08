@@ -1,7 +1,5 @@
 #!/usr/bin/node
 
-#!/usr/bin/node
-
 const argv = process.argv[2];
 
 if (!argv) {
