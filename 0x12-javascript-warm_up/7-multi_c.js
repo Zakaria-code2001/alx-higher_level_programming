@@ -1,10 +1,10 @@
-#!/usr/local/bin/node
+#!/usr/bin/node
 
 const argv = process.argv[2];
-const numArgv = Number(argv);
+const x = Number(argv);
 
-if (Number.isInteger(numArgv)) {
-  for (let i = 0; i < numArgv; i++) {
+if (Number.isInteger(x)) {
+  for (let i = 0; i < x; i++) {
     console.log('C is fun');
   }
 } else {
