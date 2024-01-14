@@ -4,6 +4,8 @@ Script that takes in an argument and displays all values in the states table of 
 where name matches the argument.
 """
 
+
+
 import MySQLdb
 import sys
 
