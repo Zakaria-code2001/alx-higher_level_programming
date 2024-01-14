@@ -12,12 +12,22 @@ if __name__ == "__main__":
     password = sys.argv[2]
     database = sys.argv[3]
 
-    db = MySQLdb.connect(host="localhost", port=3306,user=username,passwd=password,db=database)
+    # Connect to MySQL server on localhost at port 3306
+    db = MySQLdb.connect(host="localhost", port=3306, user=username, passwd=password, db=database)
     cursor = db.cursor()
+
+    # Execute SQL query to select states with names starting with 'N'
     query = "SELECT * FROM states WHERE name LIKE 'N%' ORDER BY id ASC"
     cursor.execute(query)
+
+    # Fetch all the rows using fetchall() method
     data = cursor.fetchall()
+
+    # Display results
     for row in data:
         print(row)
+
+    # Close the cursor and database connection
     cursor.close()
     db.close()
+
