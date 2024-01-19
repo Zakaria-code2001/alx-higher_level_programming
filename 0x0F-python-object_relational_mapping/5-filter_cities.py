@@ -1,32 +1,28 @@
 #!/usr/bin/python3
 """
-Script that takes in the name of a state as an argument and lists all cities of that state
+Script that takes in the name of a state as an argument and lists
+all cities of that state, using the database
 """
-
 import MySQLdb
-import sys
+from sys import argv
 
-if __name__ == "__main__":
-    username = sys.argv[1]
-    password = sys.argv[2]
-    database = sys.argv[3]
-    state_name_searched = sys.argv[4]
+# The code should not be executed when imported
+if __name__ == '__main__':
+    # make a connection to the database
+    db = MySQLdb.connect(host="localhost", port=3306, user=argv[1],
+                         passwd=argv[2], db=argv[3])
 
-    db = MySQLdb.connect(host="localhost", port=3306, user=username, passwd=password, db=database)
-    cursor = db.cursor()
+    cur = db.cursor()
+    cur.execute("SELECT cities.id, cities.name FROM cities\
+                INNER JOIN states ON cities.state_id = states.id\
+                WHERE states.name = %s", [argv[4]])
 
-    query = "SELECT cities.name FROM cities JOIN states ON cities.state_id = states.id WHERE states.name = %s ORDER BY cities.id ASC"
-    cursor.execute(query, (state_name_searched,))
+    rows = cur.fetchall()
+    j = []
+    for i in rows:
+        j.append(i[1])
+    print(", ".join(j))
 
-    data = cursor.fetchall()
-
-    # Extract city names from the result set
-    cities = []
-    for row in data:
-        cities.append(row[0])
-    # Print the results as a comma-separated string
-    print(', '.join(cities))
-
-    cursor.close()
+    # Clean up process
+    cur.close()
     db.close()
-
