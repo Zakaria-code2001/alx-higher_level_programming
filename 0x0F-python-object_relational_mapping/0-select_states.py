@@ -1,39 +1,23 @@
 #!/usr/bin/python3
-"""
-Script to retrieve and display all states from the 'states' table in a MySQL database
-"""
-
+""" Script that lists all states from the database hbtn_0e_0_usa """
 import MySQLdb
-import sys
+from sys import argv
 
+# The code should not be executed when imported
 if __name__ == '__main__':
-    try:
-        mysql_username = sys.argv[1]
-        mysql_password = sys.argv[2]
-        database_name = sys.argv[3]
 
-        db = MySQLdb.connect(
-            host='localhost',
-            user=mysql_username,
-            passwd=mysql_password,
-            db=database_name,
-            port=3306
-        )
+    # make a connection to the database
+    db = MySQLdb.connect(host="localhost", port=3306, user=argv[1],
+                         passwd=argv[2], db=argv[3])
 
-        cursor = db.cursor()
+    # It gives us the ability to have multiple seperate working environments
+    # through the same connection to the database.
+    cur = db.cursor()
+    cur.execute("SELECT * FROM states")
 
-        query = "SELECT * FROM states ORDER BY id ASC;"
-        cursor.execute(query)
-        results = cursor.fetchall()
-
-        for x in results:
-            print(x)
-
-    except MySQLdb.Error as e:
-        print(f"Error: {e}")
-
-    finally:
-        if 'db' in locals() and db:
-            cursor.close()
-            db.close()
-
+    rows = cur.fetchall()
+    for i in rows:
+        print(i)
+    # Clean up process
+    cur.close()
+    db.close()
