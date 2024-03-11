@@ -2,11 +2,11 @@
 
 const inputs = process.argv;
 
-const argsCount = process.argv.length - 2;
-const arg1 = inputs[2];
+const arg0 = inputs[2];
+const arg1 = inputs[3];
 
-if (argsCount === 0) {
+if (arg0 === undefined) {
   console.log('No argument');
-} else if (argsCount === 1) {
-  console.log(arg1);
+} else if (arg0 != undefined) {
+  console.log(arg0);
 }
