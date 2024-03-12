@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/usr/local/bin/node
 
 class Rectangle {
   constructor (w, h) {
@@ -6,9 +6,9 @@ class Rectangle {
       this.width = w;
       this.height = h;
     } else {
-      this.width = undefined;
-      this.height = undefined;
+      return {};
     }
   }
 }
+
 module.exports = Rectangle;
