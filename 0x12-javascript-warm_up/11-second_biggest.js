@@ -1,13 +1,11 @@
-#!/usr/bin/node
+#!/usr/local/bin/node
 
-const nums = [];
+const args = process.argv.slice(2).map(Number);
+const nums = args.filter(num => !isNaN(num));
 
-for (let i = 2; i < process.argv.length; i++) {
-  nums.push(parseInt(process.argv[i]));
-}
-
-nums.sort();
-const secondBigger = nums[nums.length - 2];
-if (isNaN(secondBigger) || secondBigger === undefined || nums.length < 2) {
+if (nums.length < 2) {
   console.log(0);
-} else { console.log(secondBigger); }
+} else {
+  nums.sort((a, b) => b - a);
+  console.log(nums[1]);
+}
