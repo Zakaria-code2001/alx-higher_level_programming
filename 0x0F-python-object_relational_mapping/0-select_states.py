@@ -1,50 +1,44 @@
 #!/usr/bin/python3
-
 """
-This script connects to a MySQL database and retrieves data from a table called 'states'.
+Script to query states from a MySQL database.
 """
 
 import MySQLdb
 import sys
 
-
-def retrieve_states(username, password, db_name):
+def query_states(username, password, db_name):
     """
-    Retrieve states data from a MySQL database.
+    Query states from the specified MySQL database.
 
     Args:
-        username (str): The username for the database connection.
-        password (str): The password for the database connection.
-        db_name (str): The name of the database to connect to.
+        username (str): The username to connect to the MySQL database.
+        password (str): The password to connect to the MySQL database.
+        db_name (str): The name of the MySQL database.
 
     Returns:
-        list: A list of tuples representing the retrieved data.
+        list: A list of tuples representing the queried states.
     """
-    try:
-        db = MySQLdb.connect(host="localhost", port=3306, user=username, passwd=password, db=db_name)
-        cursor = db.cursor()
+    db = MySQLdb.connect(host="localhost", port=3306, user=username, passwd=password, db=db_name)
+    cursor = db.cursor()
 
-        query = "SELECT * FROM states ORDER BY id ASC"
-        cursor.execute(query)
-        results = cursor.fetchall()
+    query = "SELECT * FROM states ORDER BY id ASC"
+    cursor.execute(query)
+    results = cursor.fetchall()
 
-        return results
+    cursor.close()
+    db.close()
 
-    finally:
-        cursor.close()
-        db.close()
-
+    return results
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print("Usage: python3 script.py <username> <password> <db_name>")
+        print("Usage: {} <username> <password> <db_name>".format(sys.argv[0]))
         sys.exit(1)
 
     username = sys.argv[1]
     password = sys.argv[2]
     db_name = sys.argv[3]
 
-    states_data = retrieve_states(username, password, db_name)
-
-    for row in states_data:
-        print(row)
+    states = query_states(username, password, db_name)
+    for state in states:
+        print(state)
