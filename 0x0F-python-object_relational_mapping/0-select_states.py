@@ -1,50 +1,19 @@
 #!/usr/bin/python3
-"""
-Script to query states from a MySQL database.
-"""
-
+""" Script that lists all states from the database hbtn_0e_0_usa """
 import MySQLdb
-import sys
+from sys import argv
 
 
-def query_states(username, password, db_name):
-    """
-    Query states from the specified MySQL database.
+if __name__ == '__main__':
 
-    Args:
-        username (str): The username to connect to the MySQL database.
-        password (str): The password to connect to the MySQL database.
-        db_name (str): The name of the MySQL database.
+    db = MySQLdb.connect(host="localhost", port=3306, user=argv[1],
+                         passwd=argv[2], db=argv[3])
 
-    Returns:
-        list: A list of tuples representing the query.
-    """
-    db = MySQLdb.connect(host="localhost",
-                         port=3306,
-                         user=username,
-                         passwd=password,
-                         db=db_name)
-    cursor = db.cursor()
+    cur = db.cursor()
+    cur.execute("SELECT * FROM states")
 
-    query = "SELECT * FROM states ORDER BY id ASC"
-    cursor.execute(query)
-    results = cursor.fetchall()
-
-    cursor.close()
+    rows = cur.fetchall()
+    for i in rows:
+        print(i)
+    cur.close()
     db.close()
-
-    return results
-
-
-if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print("Usage: {} <username> <password> <db_name>".format(sys.argv[0]))
-        sys.exit(1)
-
-    username = sys.argv[1]
-    password = sys.argv[2]
-    db_name = sys.argv[3]
-
-    states = query_states(username, password, db_name)
-    for state in states:
-        print(state)
