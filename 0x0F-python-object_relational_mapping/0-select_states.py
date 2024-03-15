@@ -17,7 +17,7 @@ def query_states(username, password, db_name):
         db_name (str): The name of the MySQL database.
 
     Returns:
-        list: A list of tuples representing the queried states.
+        list: A list of tuples representing the query.
     """
     db = MySQLdb.connect(host="localhost",
                          port=3306,
