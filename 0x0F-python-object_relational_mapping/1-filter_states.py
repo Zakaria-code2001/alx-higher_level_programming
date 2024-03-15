@@ -26,7 +26,7 @@ def query_states(username, password, db_name):
                          db=db_name)
     cursor = db.cursor()
 
-    query = "SELECT * FROM states WHERE name LIKE 'N%' ORDER BY id ASC LIMIT 2"
+    query = "SELECT * FROM states WHERE name LIKE 'N%' ORDER BY id ASC"
     cursor.execute(query)
     results = cursor.fetchall()
 
