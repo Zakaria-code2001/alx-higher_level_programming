@@ -27,13 +27,13 @@ def query_states(username, password, db_name, state_name):
                          db=db_name)
     cursor = db.cursor()
 
-    query = ("SELECT * FROM states WHERE name = %s ORDER BY id ASC LIMIT 1")
-    cursor.execute(query, (state_name,))
+    query = "SELECT * FROM states WHERE name = '{}' ORDER BY id ASC".format(state_name)
+    cursor.execute(query)
     results = cursor.fetchall()
 
     cursor.close()
     db.close()
-
+    
     return results
 
 
