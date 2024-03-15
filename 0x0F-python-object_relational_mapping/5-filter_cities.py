@@ -21,7 +21,7 @@ if __name__ == "__main__":
              "FROM cities JOIN states "
              "ON cities.state_id = states.id "
              "WHERE states.name = %s "
-             "ORDER BY cities.id ASC LIMIT 3")
+             "ORDER BY cities.id ASC")
     cursor.execute(query, (state_name,))
 
     city_names = []
