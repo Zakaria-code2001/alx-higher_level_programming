@@ -1,50 +1,27 @@
 #!/usr/bin/python3
 """
-Script to query states startin with 'N' from a MySQL database.
+a script that lists all states with a name starting
+with N (upper N) from the database hbtn_0e_0_usa
 """
-
 import MySQLdb
-import sys
+from sys import argv
 
+# The code should not be executed when imported
+if __name__ == '__main__':
+    # make a connection to the database
+    db = MySQLdb.connect(host="localhost", port=3306, user=argv[1],
+                         passwd=argv[2], db=argv[3])
 
-def query_states(username, password, db_name):
-    """
-    Query states from the specified MySQL database.
+    # It gives us the ability to have multiple seperate working environments
+    # through the same connection to the database.
+    cur = db.cursor()
 
-    Args:
-        username (str): The username to connect to the MySQL database.
-        password (str): The password to connect to the MySQL database.
-        db_name (str): The name of the MySQL database.
+    cur.execute("SELECT * FROM states WHERE name\
+                LIKE BINARY 'N%' ORDER BY id ASC")
 
-    Returns:
-        list: A list of tuples representing the query.
-    """
-    db = MySQLdb.connect(host="localhost",
-                         port=3306,
-                         user=username,
-                         passwd=password,
-                         db=db_name)
-    cursor = db.cursor()
-
-    query = "SELECT * FROM states WHERE name LIKE BINARY 'N%' ORDER BY id ASC"
-    cursor.execute(query)
-    results = cursor.fetchall()
-
-    cursor.close()
+    rows = cur.fetchall()
+    for i in rows:
+        print(i)
+    # Clean up process
+    cur.close()
     db.close()
-
-    return results
-
-
-if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print("Usage: {} <username> <password> <db_name>".format(sys.argv[0]))
-        sys.exit(1)
-
-    username = sys.argv[1]
-    password = sys.argv[2]
-    db_name = sys.argv[3]
-
-    states = query_states(username, password, db_name)
-    for state in states:
-        print(state)
