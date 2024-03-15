@@ -1,51 +1,23 @@
 #!/usr/bin/python3
 """
-Script to query states starting with 'N' from a MySQL database.
+a script that takes in an argument and displays all values in the states
+table of hbtn_0e_0_usa where name matches the argument.
 """
-
 import MySQLdb
-import sys
+from sys import argv
 
+if __name__ == '__main__':
 
-def query_states(username, password, db_name, state_name):
-    """
-    Query states from the specified MySQL database.
+    db = MySQLdb.connect(host="localhost", port=3306, user=argv[1],
+                         passwd=argv[2], db=argv[3])
 
-    Args:
-        username (str): Username to connect to the MySQL database.
-        password (str): Password to connect to the MySQL database.
-        db_name (str): Name of the MySQL database.
-        state_name (str): Name of the state to query.
+    cur = db.cursor()
+    nmeSr = "SELECT * FROM states WHERE name LIKE BINARY '{}'".format(argv[4])
+    cur.execute(nmeSr)
 
-    Returns:
-        list: A list of tuples representing the query results.
-    """
-    db = MySQLdb.connect(host="localhost",
-                         port=3306,
-                         user=username,
-                         passwd=password,
-                         db=db_name)
-    cursor = db.cursor()
+    rows = cur.fetchall()
+    for i in rows:
+        print(i)
 
-    query = "SELECT * FROM states WHERE name = '{}' ORDER BY id ASC".format(state_name)
-    cursor.execute(query)
-    results = cursor.fetchall()
-
-    cursor.close()
+    cur.close()
     db.close()
-    
-    return results
-
-
-if __name__ == "__main__":
-    if len(sys.argv) != 5:
-        print("Usage: <username> <password> <db_name> <state_name>")
-
-    username = sys.argv[1]
-    password = sys.argv[2]
-    db_name = sys.argv[3]
-    state_name = sys.argv[4]
-
-    states = query_states(username, password, db_name, state_name)
-    for state in states:
-        print(state)
