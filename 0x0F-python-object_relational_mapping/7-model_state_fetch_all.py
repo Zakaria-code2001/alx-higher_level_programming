@@ -23,3 +23,4 @@ if __name__ == "__main__":
     for state in stato:
         print("{}: {}".format(state.id, state.name))
     session.close()
+    
