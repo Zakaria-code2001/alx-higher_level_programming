@@ -2,7 +2,8 @@
 
 """
 Connect to a MySQL server running on localhost at port 3306
-and lists all State objects from the database hbtn_0e_6_usa
+and lists all State objects from the database
+hbtn_0e_6_usa where a certain letter is present in the state name
 """
 from model_state import Base, State
 import sys
@@ -23,10 +24,8 @@ if __name__ == "__main__":
 
     letter = 'a'
     stato = session.query(State).filter(
-        State.name.like(f'%{letter}%')).order_by(
-        State.id).first()
-    if stato:
-        print("{}: {}".format(stato.id, stato.name))
-    else:
-        print("Nothing")
+        State.name.like('%a%')).order_by(
+        State.id).all()
+    for state in stato:
+        print("{}: {}".format(state.id, state.name))
     session.close()
