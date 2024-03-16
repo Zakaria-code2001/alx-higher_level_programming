@@ -11,7 +11,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 db_url = "mysql+mysqldb://root:root@localhost:3306/hbtn_0e_6_usa"
-engine = create_engine(db_url, pool_pre_ping=True)
+engine = create_engine(db_url, pool_pre_ping=False)
 
 if __name__ == "__main__":
     username = sys.argv[1]
