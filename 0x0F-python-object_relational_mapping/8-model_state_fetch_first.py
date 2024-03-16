@@ -22,6 +22,8 @@ if __name__ == "__main__":
     Base.metadata.create_all(engine)
 
     stato = session.query(State).order_by(State.id).first()
-    for state in stato:
-        print("{}: {}".format(state.id, state.name))
+    if stato:
+        print("{}: {}".format(stato.id, stato.name))
+    else:
+        print("Nothing")
     session.close()
