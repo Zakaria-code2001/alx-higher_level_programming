@@ -10,30 +10,21 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 if __name__ == "__main__":
-    # Ensure all required arguments are provided
     if len(argv) != 4:
-        print("Usage: ./7-model_state_fetch_all.py\
-              <username> <password> <database_name>")
+        print("Usage: ./7-model_state_fetch_all.py \
+            <username> <password> <database_name>")
         exit(1)
 
-    # Establishing the connection
-    engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'.format(
-        argv[1], argv[2], argv[3]), pool_pre_ping=True)
+    engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}/{}'.format(
+        argv[1], argv[2], argv[3], argv[3]), pool_pre_ping=True)
 
-    # Creating metadata
     Base.metadata.create_all(engine)
 
-    # Creating a session
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    # Querying and printing State objects
     states = session.query(State).order_by(State.id).all()
-    if states:
-        for state in states:
-            print("{}: {}".format(state.id, state.name))
-    else:
-        print("No states found")
+    for state in states:
+        print("{}: {}".format(state.id, state.name))
 
-    # Closing the session
     session.close()
