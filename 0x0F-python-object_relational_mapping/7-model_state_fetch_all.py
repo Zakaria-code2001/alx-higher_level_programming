@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from model_state import Base, State
 
-db_url = "mysql+mysqldb://root:root@localhost:3306/my_db"
+db_url = "mysql+mysqldb://root:root@localhost:3306/hbtn_0e_6_usa"
 engine = create_engine(db_url, pool_pre_ping=True)
 
 Session = sessionmaker(bind=engine)
