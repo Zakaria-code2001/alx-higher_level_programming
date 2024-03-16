@@ -9,10 +9,6 @@ import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-
-db_url = "mysql+mysqldb://root:root@localhost:3306/hbtn_0e_6_usa"
-engine = create_engine(db_url, pool_pre_ping=True)
-
 if __name__ == "__main__":
     username = sys.argv[1]
     password = sys.argv[2]
@@ -25,7 +21,7 @@ if __name__ == "__main__":
     session = Session()
     Base.metadata.create_all(engine)
 
-    stato = session.query(State).order_by(State.id).all()
+    stato = session.query(State).order_by(State.id)[1:2]
     for state in stato:
         print("{}: {}".format(state.id, state.name))
     session.close()
