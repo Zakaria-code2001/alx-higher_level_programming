@@ -1,26 +1,20 @@
 #!/usr/bin/python3
 """writing a Python script using module requests"""
 
-import requests
 import sys
-import json
+import requests
+
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        q = sys.argv[1]
-    else:
-        q = ""
+    letter = "" if len(sys.argv) == 1 else sys.argv[1]
+    payload = {"q": letter}
 
-    url = 'http://0.0.0.0:5000/search_user'
-    data = {'q': q}
-
-    response = requests.post(url, data=data)
-
+    r = requests.post("http://0.0.0.0:5000/search_user", data=payload)
     try:
-        r_json = response.json()
-        if r_json:
-            print("[{}] {}".format(r_json.get('id'), r_json.get('name')))
-        else:
+        response = r.json()
+        if response == {}:
             print("No result")
+        else:
+            print("[{}] {}".format(response.get("id"), response.get("name")))
     except ValueError:
         print("Not a valid JSON")
