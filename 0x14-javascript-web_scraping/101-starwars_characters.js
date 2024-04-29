@@ -1,33 +1,29 @@
 #!/usr/bin/node
 
-const fetch = require('node-fetch');
+const request = require('request');
 
-async function getMovieCharacters(movieId) {
-    try {
-        const url = `https://swapi.dev/api/films/${movieId}/`;
+const movieId = process.argv[2];
 
-        const response = await fetch(url);
+request(`https://swapi.dev/api/films/${movieId}/`, (error, response, body) => {
+  if (error) {
+    console.error('Error:', error);
+  } else if (response.statusCode !== 200) {
+    console.error('Status:', response.statusCode);
+  } else {
+    const film = JSON.parse(body);
+    const characterUrls = film.characters;
 
-        if (response.ok) {
-            const data = await response.json();
-            const characterUrls = data.characters;
-
-            for (const characterUrl of characterUrls) {
-                const characterResponse = await fetch(characterUrl);
-                if (characterResponse.ok) {
-                    const characterData = await characterResponse.json();
-                    console.log(characterData.name);
-                } else {
-                    console.log("Failed to fetch character details.");
-                }
-            }
+    characterUrls.forEach(characterUrl => {
+      request(characterUrl, (error, response, body) => {
+        if (error) {
+          console.error('Error:', error);
+        } else if (response.statusCode !== 200) {
+          console.error('Status:', response.statusCode);
         } else {
-            console.log("Failed to fetch movie details.");
+          const character = JSON.parse(body);
+          console.log(character.name);
         }
-    } catch (error) {
-        console.error("An error occurred:", error);
-    }
-}
-
-const movieId = 3;
-getMovieCharacters(movieId);
+      });
+    });
+  }
+});
